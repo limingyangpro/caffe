@@ -1,5 +1,22 @@
 # Caffe
 
+## Build step in Ubuntu 16.04
+
+###Install pre-requists
+sudo apt-get install --no-install-recommends libboost-all-dev
+sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+sudo apt-get install libgoogle-glog-dev liblmdb-dev
+
+###Clone and compile
+mkdir cmakebuild
+cd cmake build
+cmake ..
+make all -j2
+make test
+make runtest
+
+
+
 [![Build Status](https://travis-ci.org/BVLC/caffe.svg?branch=master)](https://travis-ci.org/BVLC/caffe)
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](LICENSE)
 
