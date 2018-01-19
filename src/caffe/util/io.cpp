@@ -234,5 +234,30 @@ void CVMatToDatum(const cv::Mat& cv_img, Datum* datum) {
   }
   datum->set_data(buffer);
 }
+
+cv::Mat DatumToCVMat(const Datum &datum) {
+  const string& data = datum.data();
+  int datum_size = data.size();
+  CHECK(datum_size > 0) << "Data should not be empty";
+  int channels = datum.channels();
+  int height = datum.height();
+  int width = datum.width();
+  int mattype = (channels == 1) ? CV_8UC1 : CV_8UC3;
+
+  //Create the new mat
+  cv::Mat cv_img(height, width, mattype);
+
+  for (int h = 0; h < height; ++h) {
+    uchar* ptr = cv_img.ptr<uchar>(h);
+    int img_index = 0;
+    for (int w = 0; w < width; ++w) {
+      for (int c = 0; c < channels; ++c) {
+        int datum_index = (c * height + h) * width + w;
+        ptr[img_index++] = static_cast<uchar>(data[datum_index]);
+      }
+    }
+  }
+  return cv_img;
+}
 #endif  // USE_OPENCV
 }  // namespace caffe
